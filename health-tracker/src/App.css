@@ -121,6 +121,12 @@ input { font-family: inherit; }
 }
 .btn-remove:hover { background: #fee2e2; color: #ef4444; }
 
+.btn-template {
+  padding: 5px 10px; border-radius: 7px;
+  background: #f5f3ff; color: #7c3aed; font-size: 13px; font-weight: 600;
+}
+.btn-template:hover { background: #ede9fe; }
+
 /* ─── Modal ─── */
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,.45);
@@ -192,6 +198,36 @@ input { font-family: inherit; }
 }
 .btn-primary:hover { background: #1d4ed8; }
 .btn-primary:disabled { background: #93c5fd; cursor: not-allowed; }
+
+/* ─── Meal templates ─── */
+.template-modal { gap: 10px; }
+.template-list { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+.template-card {
+  border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 12px;
+  cursor: pointer; transition: border-color .15s, box-shadow .15s;
+}
+.template-card:hover { border-color: #a5b4fc; box-shadow: 0 2px 8px rgba(99,102,241,.1); }
+.template-card:active { transform: scale(.99); }
+.template-card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.template-emoji { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.template-info { flex: 1; min-width: 0; }
+.template-name { display: block; font-size: 14px; font-weight: 600; color: #111827; }
+.template-desc { display: block; font-size: 12px; color: #6b7280; margin-top: 2px; }
+.template-badge {
+  padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  white-space: nowrap; flex-shrink: 0;
+}
+.template-ingredients { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.ingredient-chip {
+  padding: 3px 8px; background: #f3f4f6; border-radius: 5px;
+  font-size: 11px; color: #374151;
+}
+.template-totals {
+  display: flex; gap: 10px; align-items: center;
+  padding-top: 8px; border-top: 1px solid #f3f4f6;
+  font-size: 12px; color: #6b7280;
+}
+.tt-kcal { font-weight: 700; font-size: 14px; color: #111827; }
 
 /* ─── Shopping list ─── */
 .shopping-list { display: flex; flex-direction: column; gap: 12px; }
