@@ -6,6 +6,7 @@ export const FOOD_CATEGORIES = {
   fruits: "🍎 Фрукти",
   dairy: "🥛 Молочні",
   fats: "🥑 Жири",
+  treats: "🍣 Смаколики",
 };
 
 export const FOODS = [
@@ -54,6 +55,14 @@ export const FOODS = [
   { id: 51, name: "Оливкова олія", category: "fats", per100g: { kcal: 884, protein: 0, fat: 100, carbs: 0 }, portions: [{ label: "Чайна ложка (5г)", weight: 5 }, { label: "Столова ложка (14г)", weight: 14 }] },
   { id: 52, name: "Мигдаль", category: "fats", per100g: { kcal: 579, protein: 21, fat: 50, carbs: 22 }, portions: [{ label: "Жменя (30г)", weight: 30 }, { label: "Подвійна (50г)", weight: 50 }] },
   { id: 53, name: "Горіхи волоські", category: "fats", per100g: { kcal: 654, protein: 15, fat: 65, carbs: 14 }, portions: [{ label: "Жменя (30г)", weight: 30 }] },
+  { id: 54, name: "Хумус", category: "fats", per100g: { kcal: 166, protein: 8, fat: 10, carbs: 14 }, portions: [{ label: "Ложка (30г)", weight: 30 }, { label: "Порція (60г)", weight: 60 }] },
+
+  // Treats / Смаколики
+  { id: 60, name: "Слабосолоний лосось", category: "treats", per100g: { kcal: 170, protein: 22, fat: 9, carbs: 0 }, portions: [{ label: "Кілька скибочок (60г)", weight: 60 }, { label: "Порція (100г)", weight: 100 }, { label: "Велика (150г)", weight: 150 }] },
+  { id: 61, name: "Суші сет (власна порція)", category: "treats", per100g: { kcal: 150, protein: 6, fat: 3, carbs: 26 }, portions: [{ label: "Половина (450г на двох)", weight: 450 }, { label: "Ціла порція (900г)", weight: 900 }] },
+  { id: 62, name: "McDonald's — Дабл Роял Чизбургер", category: "treats", per100g: { kcal: 267, protein: 17, fat: 15, carbs: 17 }, portions: [{ label: "1 бургер (~277г)", weight: 277 }] },
+  { id: 63, name: "McDonald's — Сніданок подвійна свиняча з яйцем", category: "treats", per100g: { kcal: 231, protein: 14, fat: 12, carbs: 18 }, portions: [{ label: "1 сніданок (~234г)", weight: 234 }] },
+  { id: 64, name: "McDonald's — Картопля фрі (велика)", category: "treats", per100g: { kcal: 312, protein: 3.8, fat: 15, carbs: 41 }, portions: [{ label: "Велика (154г)", weight: 154 }] },
 ];
 
 export const MEAL_TYPES = [

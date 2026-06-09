@@ -3,6 +3,7 @@ import { MEAL_TYPES, DAILY_GOALS } from "../data/foodDatabase";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import MacroBar from "./MacroBar";
 import AddFoodModal from "./AddFoodModal";
+import MealTemplateModal from "./MealTemplateModal";
 import ShoppingList from "./ShoppingList";
 
 function todayStr() {
@@ -18,6 +19,7 @@ export default function NutritionSection() {
   const [nutrition, setNutrition] = useLocalStorage("ht_nutrition", {});
   const [date, setDate] = useState(todayStr());
   const [addingTo, setAddingTo] = useState(null);
+  const [templateFor, setTemplateFor] = useState(null);
   const [view, setView] = useState("log"); // log | shopping
 
   const dayData = nutrition[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
@@ -36,6 +38,13 @@ export default function NutritionSection() {
     setNutrition((prev) => {
       const day = prev[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
       return { ...prev, [date]: { ...day, [mealId]: [...(day[mealId] || []), entry] } };
+    });
+  };
+
+  const addTemplateEntries = (mealId, entries) => {
+    setNutrition((prev) => {
+      const day = prev[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
+      return { ...prev, [date]: { ...day, [mealId]: [...(day[mealId] || []), ...entries] } };
     });
   };
 
@@ -102,6 +111,7 @@ export default function NutritionSection() {
                   {items.length > 0 && (
                     <span className="meal-stats">{mealTotals.kcal} ккал · {Math.round(mealTotals.protein)}г білку</span>
                   )}
+                  <button className="btn-template" onClick={() => setTemplateFor(meal.id)}>⚡ Шаблон</button>
                   <button className="btn-add" onClick={() => setAddingTo(meal.id)}>+ Додати</button>
                 </div>
                 {items.length === 0 && (
@@ -135,6 +145,14 @@ export default function NutritionSection() {
           mealType={MEAL_TYPES.find((m) => m.id === addingTo)?.label}
           onAdd={(entry) => addFood(addingTo, entry)}
           onClose={() => setAddingTo(null)}
+        />
+      )}
+
+      {templateFor && (
+        <MealTemplateModal
+          mealType={MEAL_TYPES.find((m) => m.id === templateFor)?.label}
+          onAdd={(entries) => addTemplateEntries(templateFor, entries)}
+          onClose={() => setTemplateFor(null)}
         />
       )}
     </div>
