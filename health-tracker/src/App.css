@@ -73,6 +73,8 @@ input { font-family: inherit; }
 }
 .btn-icon:hover { background: #f3f4f6; }
 
+.loading-state { color: #6b7280; font-size: 14px; text-align: center; padding: 20px; }
+
 /* ─── Macro bars ─── */
 .macro-bar { margin-top: 10px; }
 .macro-bar-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }

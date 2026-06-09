@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MEAL_TYPES, DAILY_GOALS } from "../data/foodDatabase";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { getNutritionForDate, addFoodEntry, removeFoodEntry } from "../lib/db";
 import MacroBar from "./MacroBar";
 import AddFoodModal from "./AddFoodModal";
 import MealTemplateModal from "./MealTemplateModal";
@@ -15,14 +15,27 @@ function formatDate(d) {
   return date.toLocaleDateString("uk-UA", { weekday: "short", day: "numeric", month: "short" });
 }
 
+const EMPTY_DAY = { breakfast: [], lunch: [], dinner: [], snack: [] };
+
 export default function NutritionSection() {
-  const [nutrition, setNutrition] = useLocalStorage("ht_nutrition", {});
   const [date, setDate] = useState(todayStr());
+  const [dayData, setDayData] = useState(EMPTY_DAY);
+  const [loading, setLoading] = useState(false);
   const [addingTo, setAddingTo] = useState(null);
   const [templateFor, setTemplateFor] = useState(null);
-  const [view, setView] = useState("log"); // log | shopping
+  const [view, setView] = useState("log");
 
-  const dayData = nutrition[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
+  const loadDay = useCallback(async (d) => {
+    setLoading(true);
+    try {
+      const data = await getNutritionForDate(d);
+      setDayData(data);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { loadDay(date); }, [date, loadDay]);
 
   const totals = Object.values(dayData).flat().reduce(
     (acc, item) => ({
@@ -34,25 +47,19 @@ export default function NutritionSection() {
     { kcal: 0, protein: 0, fat: 0, carbs: 0 }
   );
 
-  const addFood = (mealId, entry) => {
-    setNutrition((prev) => {
-      const day = prev[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
-      return { ...prev, [date]: { ...day, [mealId]: [...(day[mealId] || []), entry] } };
-    });
+  const addFood = async (mealId, entry) => {
+    const saved = await addFoodEntry(date, mealId, entry);
+    setDayData((prev) => ({ ...prev, [mealId]: [...prev[mealId], saved] }));
   };
 
-  const addTemplateEntries = (mealId, entries) => {
-    setNutrition((prev) => {
-      const day = prev[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
-      return { ...prev, [date]: { ...day, [mealId]: [...(day[mealId] || []), ...entries] } };
-    });
+  const addTemplateEntries = async (mealId, entries) => {
+    const saved = await Promise.all(entries.map((e) => addFoodEntry(date, mealId, e)));
+    setDayData((prev) => ({ ...prev, [mealId]: [...prev[mealId], ...saved] }));
   };
 
-  const removeFood = (mealId, entryId) => {
-    setNutrition((prev) => {
-      const day = prev[date] || {};
-      return { ...prev, [date]: { ...day, [mealId]: (day[mealId] || []).filter((e) => e.id !== entryId) } };
-    });
+  const removeFood = async (mealId, entryId) => {
+    await removeFoodEntry(entryId);
+    setDayData((prev) => ({ ...prev, [mealId]: prev[mealId].filter((e) => e.id !== entryId) }));
   };
 
   const changeDate = (delta) => {
@@ -70,7 +77,6 @@ export default function NutritionSection() {
 
       {view === "log" && (
         <>
-          {/* Date nav */}
           <div className="date-nav">
             <button className="btn-icon" onClick={() => changeDate(-1)}>‹</button>
             <div className="date-center">
@@ -80,7 +86,6 @@ export default function NutritionSection() {
             <button className="btn-icon" onClick={() => changeDate(1)}>›</button>
           </div>
 
-          {/* Day totals */}
           <div className="daily-totals card">
             <div className="totals-row">
               <div className="total-big">
@@ -100,45 +105,46 @@ export default function NutritionSection() {
             <MacroBar label="Вуглеводи" value={Math.round(totals.carbs)} goal={DAILY_GOALS.carbs} unit="г" color="#10b981" />
           </div>
 
-          {/* Meals */}
-          {MEAL_TYPES.map((meal) => {
-            const items = dayData[meal.id] || [];
-            const mealTotals = items.reduce((a, i) => ({ kcal: a.kcal + i.kcal, protein: a.protein + i.protein }), { kcal: 0, protein: 0 });
-            return (
-              <div key={meal.id} className="meal-block card">
-                <div className="meal-header">
-                  <span className="meal-title">{meal.label}</span>
-                  {items.length > 0 && (
-                    <span className="meal-stats">{mealTotals.kcal} ккал · {Math.round(mealTotals.protein)}г білку</span>
-                  )}
-                  <button className="btn-template" onClick={() => setTemplateFor(meal.id)}>⚡ Шаблон</button>
-                  <button className="btn-add" onClick={() => setAddingTo(meal.id)}>+ Додати</button>
-                </div>
-                {items.length === 0 && (
-                  <p className="meal-empty">Нічого не додано</p>
-                )}
-                {items.map((item) => (
-                  <div key={item.id} className="food-entry">
-                    <div className="food-entry-info">
-                      <span className="food-entry-name">{item.name}</span>
-                      <span className="food-entry-weight">{item.weight}г</span>
-                    </div>
-                    <div className="food-entry-macros">
-                      <span>{item.kcal} ккал</span>
-                      <span>Б: {item.protein}г</span>
-                      <span>Ж: {item.fat}г</span>
-                      <span>В: {item.carbs}г</span>
-                    </div>
-                    <button className="btn-remove" onClick={() => removeFood(meal.id, item.id)}>✕</button>
+          {loading ? (
+            <div className="loading-state card">Завантаження...</div>
+          ) : (
+            MEAL_TYPES.map((meal) => {
+              const items = dayData[meal.id] || [];
+              const mealTotals = items.reduce((a, i) => ({ kcal: a.kcal + i.kcal, protein: a.protein + i.protein }), { kcal: 0, protein: 0 });
+              return (
+                <div key={meal.id} className="meal-block card">
+                  <div className="meal-header">
+                    <span className="meal-title">{meal.label}</span>
+                    {items.length > 0 && (
+                      <span className="meal-stats">{mealTotals.kcal} ккал · {Math.round(mealTotals.protein)}г білку</span>
+                    )}
+                    <button className="btn-template" onClick={() => setTemplateFor(meal.id)}>⚡ Шаблон</button>
+                    <button className="btn-add" onClick={() => setAddingTo(meal.id)}>+ Додати</button>
                   </div>
-                ))}
-              </div>
-            );
-          })}
+                  {items.length === 0 && <p className="meal-empty">Нічого не додано</p>}
+                  {items.map((item) => (
+                    <div key={item.id} className="food-entry">
+                      <div className="food-entry-info">
+                        <span className="food-entry-name">{item.name}</span>
+                        <span className="food-entry-weight">{item.weight}г</span>
+                      </div>
+                      <div className="food-entry-macros">
+                        <span>{item.kcal} ккал</span>
+                        <span>Б: {item.protein}г</span>
+                        <span>Ж: {item.fat}г</span>
+                        <span>В: {item.carbs}г</span>
+                      </div>
+                      <button className="btn-remove" onClick={() => removeFood(meal.id, item.id)}>✕</button>
+                    </div>
+                  ))}
+                </div>
+              );
+            })
+          )}
         </>
       )}
 
-      {view === "shopping" && <ShoppingList nutrition={nutrition} />}
+      {view === "shopping" && <ShoppingList />}
 
       {addingTo && (
         <AddFoodModal
