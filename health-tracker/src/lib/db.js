@@ -1,5 +1,10 @@
 import { supabase } from "./supabase";
 
+async function uid() {
+  const { data } = await supabase.auth.getUser();
+  return data.user?.id;
+}
+
 // ─── Nutrition ────────────────────────────────────────────────────────────────
 
 export async function getNutritionForDate(date) {
@@ -27,10 +32,12 @@ export async function getNutritionForDate(date) {
 }
 
 export async function addFoodEntry(date, mealType, entry) {
+  const userId = await uid();
   const { data, error } = await supabase
     .from("food_entries")
     .insert({
       date,
+      user_id: userId,
       meal_type: mealType,
       food_id: entry.foodId || null,
       food_name: entry.name,
@@ -81,17 +88,23 @@ export async function getActivityForDate(date) {
 }
 
 export async function upsertActivityDay(date, patch) {
+  const userId = await uid();
   const { error } = await supabase
     .from("activity_days")
-    .upsert({ date, ...patch, updated_at: new Date().toISOString() }, { onConflict: "date" });
+    .upsert(
+      { date, user_id: userId, ...patch, updated_at: new Date().toISOString() },
+      { onConflict: "date,user_id" }
+    );
   if (error) throw error;
 }
 
 export async function addWorkout(date, workout) {
+  const userId = await uid();
   const { data, error } = await supabase
     .from("workouts")
     .insert({
       date,
+      user_id: userId,
       type: workout.type,
       label: workout.label,
       duration: workout.duration,
