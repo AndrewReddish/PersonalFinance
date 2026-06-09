@@ -18,12 +18,18 @@ export const FOODS = [
   { id: 5, name: "Сочевиця (варена)", category: "protein", per100g: { kcal: 116, protein: 9, fat: 0.4, carbs: 20 }, portions: [{ label: "Мала (150г)", weight: 150 }, { label: "Середня (200г)", weight: 200 }, { label: "Велика (250г)", weight: 250 }] },
   { id: 6, name: "Куряче стегно без шкіри", category: "protein", per100g: { kcal: 179, protein: 25, fat: 8, carbs: 0 }, portions: [{ label: "Мала (100г)", weight: 100 }, { label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
   { id: 7, name: "Індичка (варена)", category: "protein", per100g: { kcal: 189, protein: 29, fat: 7, carbs: 0 }, portions: [{ label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
+  { id: 8, name: "Біла риба (тиляпія/пангасіус, запечена)", category: "protein", per100g: { kcal: 79, protein: 15, fat: 2, carbs: 0 }, portions: [{ label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
+  { id: 9, name: "Фарш м'ясний (яловичий/свинячий)", category: "protein", per100g: { kcal: 150, protein: 15, fat: 10, carbs: 0 }, portions: [{ label: "Порція (120г)", weight: 120 }, { label: "Велика (180г)", weight: 180 }] },
+  { id: 16, name: "Яловичина (тушкована, шматочки)", category: "protein", per100g: { kcal: 144, protein: 18, fat: 8, carbs: 0 }, portions: [{ label: "Порція (100г)", weight: 100 }, { label: "Середня (150г)", weight: 150 }] },
+  { id: 17, name: "Свинина (стейк, нежирний)", category: "protein", per100g: { kcal: 117, protein: 18, fat: 5, carbs: 0 }, portions: [{ label: "Порція (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
 
   // Dairy
   { id: 10, name: "Сир кисломолочний (5%)", category: "dairy", per100g: { kcal: 121, protein: 17, fat: 5, carbs: 3 }, portions: [{ label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }, { label: "XL (250г)", weight: 250 }] },
   { id: 11, name: "Грецький йогурт (0%)", category: "dairy", per100g: { kcal: 59, protein: 10, fat: 0.4, carbs: 3.6 }, portions: [{ label: "Стакан (150г)", weight: 150 }, { label: "Великий (200г)", weight: 200 }] },
   { id: 12, name: "Молоко (2.5%)", category: "dairy", per100g: { kcal: 52, protein: 2.8, fat: 2.5, carbs: 4.7 }, portions: [{ label: "Стакан (200мл)", weight: 200 }, { label: "Кухоль (250мл)", weight: 250 }] },
   { id: 13, name: "Сир твердий", category: "dairy", per100g: { kcal: 380, protein: 23, fat: 31, carbs: 1 }, portions: [{ label: "Скибочка (30г)", weight: 30 }, { label: "Середня (50г)", weight: 50 }] },
+  { id: 14, name: "Крем-сир (Philadelphia)", category: "dairy", per100g: { kcal: 220, protein: 5, fat: 20, carbs: 5 }, portions: [{ label: "Ложка (20г)", weight: 20 }, { label: "Порція (50г)", weight: 50 }] },
+  { id: 15, name: "Сирники (з кисломолочного сиру)", category: "dairy", per100g: { kcal: 135, protein: 10, fat: 5, carbs: 12.5 }, portions: [{ label: "3 шт (~100г)", weight: 100 }, { label: "7 шт (~200г)", weight: 200 }] },
 
   // Complex Carbs
   { id: 20, name: "Вівсянка (суха)", category: "carbs", per100g: { kcal: 367, protein: 13, fat: 7, carbs: 66 }, portions: [{ label: "Мала (50г)", weight: 50 }, { label: "Середня (80г)", weight: 80 }, { label: "Велика (100г)", weight: 100 }] },
@@ -33,6 +39,9 @@ export const FOODS = [
   { id: 24, name: "Картопля (запечена)", category: "carbs", per100g: { kcal: 93, protein: 2.5, fat: 0.1, carbs: 21 }, portions: [{ label: "Мала (150г)", weight: 150 }, { label: "Середня (200г)", weight: 200 }, { label: "Велика (300г)", weight: 300 }] },
   { id: 25, name: "Макарони з твердих сортів (варені)", category: "carbs", per100g: { kcal: 158, protein: 5.5, fat: 0.9, carbs: 31 }, portions: [{ label: "Мала (150г)", weight: 150 }, { label: "Середня (200г)", weight: 200 }] },
   { id: 26, name: "Перловка (варена)", category: "carbs", per100g: { kcal: 123, protein: 2.3, fat: 0.4, carbs: 28 }, portions: [{ label: "Середня (200г)", weight: 200 }] },
+  { id: 27, name: "Булгур (варений)", category: "carbs", per100g: { kcal: 113, protein: 3.3, fat: 0.7, carbs: 23 }, portions: [{ label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
+  { id: 28, name: "Тортилья / лаваш", category: "carbs", per100g: { kcal: 169, protein: 4.3, fat: 2.9, carbs: 31 }, portions: [{ label: "1 шт (70г)", weight: 70 }, { label: "Велика (100г)", weight: 100 }] },
+  { id: 29, name: "Вівсянка варена (порідж)", category: "carbs", per100g: { kcal: 103, protein: 3.3, fat: 2, carbs: 18 }, portions: [{ label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
 
   // Vegetables
   { id: 30, name: "Броколі (свіжа/варена)", category: "vegetables", per100g: { kcal: 34, protein: 2.8, fat: 0.4, carbs: 7 }, portions: [{ label: "Мала (100г)", weight: 100 }, { label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
@@ -42,6 +51,10 @@ export const FOODS = [
   { id: 34, name: "Болгарський перець", category: "vegetables", per100g: { kcal: 31, protein: 1, fat: 0.3, carbs: 6 }, portions: [{ label: "Середній (150г)", weight: 150 }] },
   { id: 35, name: "Капуста білокачанна", category: "vegetables", per100g: { kcal: 25, protein: 1.3, fat: 0.1, carbs: 6 }, portions: [{ label: "Порція (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
   { id: 36, name: "Шпинат", category: "vegetables", per100g: { kcal: 23, protein: 2.9, fat: 0.4, carbs: 3.6 }, portions: [{ label: "Жменя (50г)", weight: 50 }, { label: "Порція (100г)", weight: 100 }] },
+  { id: 37, name: "Кукурудза (консервована)", category: "vegetables", per100g: { kcal: 93, protein: 3.3, fat: 0, carbs: 20 }, portions: [{ label: "Ложка (30г)", weight: 30 }, { label: "Порція (80г)", weight: 80 }] },
+  { id: 38, name: "Томатний соус", category: "vegetables", per100g: { kcal: 33, protein: 1.7, fat: 0, carbs: 6.7 }, portions: [{ label: "Порція (60г)", weight: 60 }, { label: "Велика (100г)", weight: 100 }] },
+  { id: 39, name: "Овочі мікс (морква, квасоля, горох)", category: "vegetables", per100g: { kcal: 57, protein: 2.7, fat: 0.7, carbs: 10 }, portions: [{ label: "Середня (150г)", weight: 150 }, { label: "Велика (200г)", weight: 200 }] },
+  { id: 45, name: "Гриби (шампіньйони)", category: "vegetables", per100g: { kcal: 22, protein: 3.1, fat: 0.3, carbs: 3.3 }, portions: [{ label: "Жменя (80г)", weight: 80 }, { label: "Порція (150г)", weight: 150 }] },
 
   // Fruits
   { id: 40, name: "Яблуко", category: "fruits", per100g: { kcal: 52, protein: 0.3, fat: 0.2, carbs: 14 }, portions: [{ label: "Мале (130г)", weight: 130 }, { label: "Середнє (180г)", weight: 180 }, { label: "Велике (250г)", weight: 250 }] },
